@@ -24,7 +24,7 @@ line out and add your own service provider entry (in the "Package Service Provid
 SimonSchaufi\LaravelDKIM\DKIMMailServiceProvider::class,
 ```
 
-The DKIMMailServiceProvider extends the MailServiceProvider and overwrites a method that wee need for our own behavior.
+The DKIMMailServiceProvider extends the MailServiceProvider and overwrites a method that we need for our own behavior.
 
 Next we need to create a private and public key pair for signing and verifying the email.
 

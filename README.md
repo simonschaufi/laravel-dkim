@@ -1,5 +1,8 @@
 # Laravel DKIM
 
+[![Laravel 7](https://img.shields.io/badge/Laravel-7-ff2d20)](https://laravel.com)
+[![Laravel 8](https://img.shields.io/badge/Laravel-8-ff2d20)](https://laravel.com)
+
 A Laravel package, that allows signing emails with DKIM.
 
 ## Installation

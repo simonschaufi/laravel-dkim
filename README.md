@@ -1,6 +1,9 @@
 # Laravel DKIM
 
-![Packagist Downloads](https://img.shields.io/packagist/dt/simonschaufi/laravel-dkim?color=ff2d20)
+[![Donate](https://img.shields.io/badge/Donate-PayPal-blue.svg)](https://www.paypal.me/simonschaufi/20)
+[![GitHub Sponsors](https://img.shields.io/github/sponsors/simonschaufi?label=GitHub%20Sponsors)](https://github.com/sponsors/simonschaufi)
+![GitHub](https://img.shields.io/github/license/simonschaufi/laravel-dkim)
+[![Packagist Downloads](https://img.shields.io/packagist/dt/simonschaufi/laravel-dkim)](https://packagist.org/packages/simonschaufi/laravel-dkim)
 [![Laravel 7](https://img.shields.io/badge/Laravel-7-ff2d20)](https://laravel.com)
 [![Laravel 8](https://img.shields.io/badge/Laravel-8-ff2d20)](https://laravel.com)
 

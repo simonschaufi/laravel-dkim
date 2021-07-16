@@ -1,5 +1,6 @@
 # Laravel DKIM
 
+![Packagist Downloads](https://img.shields.io/packagist/dt/simonschaufi/laravel-dkim?color=ff2d20)
 [![Laravel 7](https://img.shields.io/badge/Laravel-7-ff2d20)](https://laravel.com)
 [![Laravel 8](https://img.shields.io/badge/Laravel-8-ff2d20)](https://laravel.com)
 

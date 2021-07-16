@@ -53,3 +53,5 @@ DKIM_DOMAIN=example.com
 
 If you placed the private key somewhere else, you need to set the **full absolute path** in the environment variable 
 or adjust the storage path in the config file.
+
+**If you find this package helpful, please consider a donation!** Links are on top of this file.

@@ -10,12 +10,11 @@ class MailManager extends \Illuminate\Mail\MailManager
     /**
      * Resolve the given mailer.
      *
-     * @param  string  $name
-     * @return \Illuminate\Mail\Mailer
+     * @param string $name
+     * @return Mailer|\Illuminate\Mail\Mailer
      *
-     * @throws InvalidArgumentException
      */
-    protected function resolve($name)
+    protected function resolve($name): Mailer|\Illuminate\Mail\Mailer
     {
         $config = $this->getConfig($name);
 
@@ -29,7 +28,7 @@ class MailManager extends \Illuminate\Mail\MailManager
         $mailer = new Mailer(
             $name,
             $this->app['view'],
-            $this->createSwiftMailer($config),
+            $this->createSymfonyTransport($config),
             $this->app['events']
         );
 

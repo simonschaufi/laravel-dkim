@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace SimonSchaufi\LaravelDKIM;
@@ -10,12 +11,10 @@ class MailManager extends \Illuminate\Mail\MailManager
     /**
      * Resolve the given mailer.
      *
-     * @param  string  $name
-     * @return \Illuminate\Mail\Mailer
-     *
-     * @throws InvalidArgumentException
+     * @param string $name
+     * @return Mailer
      */
-    protected function resolve($name)
+    protected function resolve($name): Mailer
     {
         $config = $this->getConfig($name);
 
@@ -29,7 +28,7 @@ class MailManager extends \Illuminate\Mail\MailManager
         $mailer = new Mailer(
             $name,
             $this->app['view'],
-            $this->createSwiftMailer($config),
+            $this->createSymfonyTransport($config),
             $this->app['events']
         );
 

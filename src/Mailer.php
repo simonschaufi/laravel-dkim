@@ -1,42 +1,57 @@
 <?php
+
 declare(strict_types=1);
 
 namespace SimonSchaufi\LaravelDKIM;
 
+use Illuminate\Contracts\Mail\Mailable as MailableContract;
+use Illuminate\Mail\SentMessage;
 use InvalidArgumentException;
-use SimonSchaufi\LaravelDKIM\Exception\MissingConfigurationException;
-use Swift_SwiftException;
+use Symfony\Component\Mime\Crypto\DkimSigner;
 
 class Mailer extends \Illuminate\Mail\Mailer
 {
     /**
-     * Create a new message instance.
+     * Send a new message using a view.
      *
-     * @return Message
-     * @throws MissingConfigurationException
-     * @throws Swift_SwiftException
+     * @param MailableContract|string|array  $view
+     * @param  array  $data
+     * @param  \Closure|string|null  $callback
+     * @return SentMessage|null
      */
-    protected function createMessage()
+    public function send($view, array $data = [], $callback = null): ?SentMessage
     {
-        $message = new Message($this->swift->createMessage('message'));
-
-        // If a global from address has been specified we will set it on every message
-        // instances so the developer does not have to repeat themselves every time
-        // they create a new message. We will just go ahead and push the address.
-        if (! empty($this->from['address'])) {
-            $message->from($this->from['address'], $this->from['name']);
+        if ($view instanceof MailableContract) {
+            return $this->sendMailable($view);
         }
 
-        // When a global reply address was specified we will set this on every message
-        // instance so the developer does not have to repeat themselves every time
-        // they create a new message. We will just go ahead and push this address.
-        if (! empty($this->replyTo['address'])) {
-            $message->replyTo($this->replyTo['address'], $this->replyTo['name']);
+        // First we need to parse the view, which could either be a string or an array
+        // containing both an HTML and plain text versions of the view which should
+        // be used when sending an e-mail. We will extract both of them out here.
+        [$view, $plain, $raw] = $this->parseView($view);
+
+        $data['message'] = $message = $this->createMessage();
+
+        // Once we have retrieved the view content for the e-mail we will set the body
+        // of this message using the HTML type, which will provide a simple wrapper
+        // to creating view based emails that are able to receive arrays of data.
+        if (! is_null($callback)) {
+            $callback($message);
         }
 
-        if (! empty($this->returnPath['address'])) {
-            $message->returnPath($this->returnPath['address']);
+        $this->addContent($message, $view, $plain, $raw, $data);
+
+        // If a global "to" address has been set, we will set that address on the mail
+        // message. This is primarily useful during local development in which each
+        // message should be delivered into a single mail address for inspection.
+        if (isset($this->to['address'])) {
+            $this->setGlobalToAndRemoveCcAndBcc($message);
         }
+
+        // Next we will determine if the message should be sent. We give the developer
+        // one final chance to stop this message and then we will send it to all of
+        // its recipients. We will then fire the sent event for the sent message.
+        $symfonyMessage = $message->getSymfonyMessage();
 
         // PATCH START
         $privateKey = config('dkim.private_key');
@@ -44,28 +59,35 @@ class Mailer extends \Illuminate\Mail\Mailer
         $domain = config('dkim.domain');
         if (in_array(strtolower(config('mail.default')), ['smtp', 'sendmail', 'log'])) {
             if (empty($privateKey)) {
-                throw new MissingConfigurationException('No private key set.', 1588115551);
+                throw new InvalidArgumentException('No private key set.', 1588115551);
             }
             if (!file_exists($privateKey)) {
                 throw new InvalidArgumentException('Private key file does not exist.', 1588115609);
             }
 
             if (empty($selector)) {
-                throw new MissingConfigurationException('No selector set.', 1588115373);
+                throw new InvalidArgumentException('No selector set.', 1588115373);
             }
             if (empty($domain)) {
-                throw new MissingConfigurationException('No domain set.', 1588115434);
+                throw new InvalidArgumentException('No domain set.', 1588115434);
             }
 
-            $message->attachDKIMSigner(
-                file_get_contents($privateKey),
-                $domain,
-                $selector,
-                config('dkim.passphrase')
-            );
+            $signer = new DkimSigner(file_get_contents($privateKey), $domain, $selector, [], config('dkim.passphrase'));
+            $signedEmail = $signer->sign($message->getSymfonyMessage());
+            $symfonyMessage->setHeaders($signedEmail->getHeaders());
         }
         // PATCH END
 
-        return $message;
+        if ($this->shouldSendMessage($symfonyMessage, $data)) {
+            $symfonySentMessage = $this->sendSymfonyMessage($symfonyMessage);
+
+            if ($symfonySentMessage) {
+                $sentMessage = new SentMessage($symfonySentMessage);
+
+                $this->dispatchSentEvent($sentMessage, $data);
+
+                return $sentMessage;
+            }
+        }
     }
 }

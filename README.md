@@ -38,7 +38,7 @@ There are many tools available to generate the necessary keys but here is one wh
 
 https://tools.socketlabs.com/dkim/generator
 
-Enter your domain and in the "selector" field enter `default` (default value is "dkim", which needs to be changed!). Leave the remaining fields as they are.
+Enter your domain and in the "selector" field enter `default`, or adjust the "selector" in the laravel config file accordingly. Leave the remaining fields as they are.
 
 After you have generated the keys and added the public key to your dns record, here is a tool to validate it:
 

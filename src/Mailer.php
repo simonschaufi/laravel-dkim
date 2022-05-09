@@ -90,4 +90,16 @@ class Mailer extends \Illuminate\Mail\Mailer
             }
         }
     }
+    
+    protected function parseView($view): array
+    {
+        $parsed = parent::parseView($view);
+
+        [$html, ,] = $parsed;
+
+        if ($html !== null)
+            return [$html, null, null];
+        else
+            return $parsed;
+    }
 }

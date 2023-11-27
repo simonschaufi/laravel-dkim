@@ -35,6 +35,9 @@ class DKIMMailServiceProvider extends MailServiceProvider
     protected function registerIlluminateMailer()
     {
         $this->app->singleton('mail.manager', static function (Application $app) {
+            if (config('dkim.domain') === null) {
+                return new \Illuminate\Mail\MailManager($app);
+            }
             return new MailManager($app);
         });
 

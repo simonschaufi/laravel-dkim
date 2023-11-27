@@ -30,7 +30,7 @@ The DKIMMailServiceProvider extends the MailServiceProvider and overwrites a met
 After that, you should publish the config file with:
 
 ```bash
-php artisan vendor:publish --provider="SimonSchaufi\LaravelDKIM\DKIMMailServiceProvider"
+php artisan vendor:publish --provider="SimonSchaufi\LaravelDKIM\DKIMMailServiceProvider" --tag dkim-config
 ```
 
 Next we need to create a private and public key pair for signing and verifying the email.

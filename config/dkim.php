@@ -9,4 +9,5 @@ return [
     'passphrase' => env('DKIM_PASSPHRASE', ''),
     'algorithm' => env('DKIM_ALGORITHM', 'rsa-sha256'),
     'identity' => env('DKIM_IDENTITY', null),
+    'mailers' => env('DKIM_MAILERS', ['smtp', 'sendmail', 'log', 'mail']),
 ];

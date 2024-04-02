@@ -15,7 +15,7 @@ A Laravel package, that allows signing emails with DKIM.
 composer require simonschaufi/laravel-dkim
 ```
 
-In **Laravel 9 & 10**, the providers array in `config/app.php` has an entry with `Illuminate\Mail\MailServiceProvider::class`. Comment this 
+In **Laravel version before 11**, the providers array in `config/app.php` has an entry with `Illuminate\Mail\MailServiceProvider::class`. Comment this 
 line out and add your own service provider entry (in the "Package Service Providers" section):
 
 ```php

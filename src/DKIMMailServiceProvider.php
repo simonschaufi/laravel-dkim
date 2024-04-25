@@ -37,9 +37,8 @@ class DKIMMailServiceProvider extends MailServiceProvider
         $this->app->singleton('mail.manager', static function (Application $app) {
             if (config('dkim.enabled', true) && config('dkim.domain') !== null) {
                 return new MailManager($app);
-            } else {
-                return new \Illuminate\Mail\MailManager($app);
             }
+            return new \Illuminate\Mail\MailManager($app);
         });
 
         $this->app->bind('mailer', static function (Application $app) {

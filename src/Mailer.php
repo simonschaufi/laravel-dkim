@@ -19,7 +19,7 @@ class Mailer extends \Illuminate\Mail\Mailer
      * @param  \Closure|string|null  $callback
      * @return SentMessage|null
      */
-    public function send($view, array $data = [], $callback = null): ?SentMessage
+    public function send($view, array $data = [], $callback = null)
     {
         if ($view instanceof MailableContract) {
             return $this->sendMailable($view);

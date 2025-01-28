@@ -35,7 +35,7 @@ class Mailer extends \Illuminate\Mail\Mailer
         // Once we have retrieved the view content for the e-mail we will set the body
         // of this message using the HTML type, which will provide a simple wrapper
         // to creating view based emails that are able to receive arrays of data.
-        if (! is_null($callback)) {
+        if (!is_null($callback)) {
             $callback($message);
         }
 
@@ -57,7 +57,7 @@ class Mailer extends \Illuminate\Mail\Mailer
         $privateKey = config('dkim.private_key');
         $selector = config('dkim.selector');
         $domain = config('dkim.domain');
-        $mailers = config('dkim.mailers');
+        $mailers = config('dkim.mailers') ?: ['smtp', 'sendmail', 'log', 'mail'];
         if (in_array(strtolower(config('mail.default')), $mailers, true)) {
             if (empty($privateKey)) {
                 throw new InvalidArgumentException('No private key set.', 1588115551);

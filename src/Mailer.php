@@ -57,7 +57,7 @@ class Mailer extends \Illuminate\Mail\Mailer
         $privateKey = config('dkim.private_key');
         $selector = config('dkim.selector');
         $domain = config('dkim.domain');
-        $mailers = config('dkim.mailers');
+        $mailers = config('dkim.mailers', ['smtp', 'sendmail', 'log', 'mail']);
         if (in_array(strtolower(config('mail.default')), $mailers, true)) {
             if (empty($privateKey)) {
                 throw new InvalidArgumentException('No private key set.', 1588115551);

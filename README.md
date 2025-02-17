@@ -5,7 +5,7 @@
 [![Buy me a coffee](https://img.shields.io/badge/-Buy_me_a_coffee-gray?logo=buymeacoffee)](https://www.buymeacoffee.com/simonschaufi)
 ![GitHub](https://img.shields.io/github/license/simonschaufi/laravel-dkim)
 [![Packagist Downloads](https://img.shields.io/packagist/dt/simonschaufi/laravel-dkim)](https://packagist.org/packages/simonschaufi/laravel-dkim)
-[![Laravel 9/10/11](https://img.shields.io/badge/Laravel-9/10/11-ff2d20)](https://laravel.com)
+[![Laravel 9/10/11/12](https://img.shields.io/badge/Laravel-9/10/11/12-ff2d20)](https://laravel.com)
 
 A Laravel package, that allows signing emails with DKIM.
 
@@ -25,7 +25,7 @@ line out and add your own service provider entry (in the "Package Service Provid
 SimonSchaufi\LaravelDKIM\DKIMMailServiceProvider::class,
 ```
 
-In **Laravel 11**, add this to your `bootstrap/app.php`:
+In **Laravel 11/12**, add this to your `bootstrap/app.php`:
 ```php
 ->withProviders([
     \SimonSchaufi\LaravelDKIM\DKIMMailServiceProvider::class,

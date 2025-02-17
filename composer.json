@@ -10,9 +10,9 @@
         }
     ],
     "require": {
-        "illuminate/mail": "^9.0 || ^10.0 || ^11.0",
-        "illuminate/config": "^9.0 || ^10.0 || ^11.0",
-        "illuminate/contracts": "^9.0 || ^10.0 || ^11.0"
+        "illuminate/mail": "^9.0 || ^10.0 || ^11.0 || ^12.0",
+        "illuminate/config": "^9.0 || ^10.0 || ^11.0 || ^12.0",
+        "illuminate/contracts": "^9.0 || ^10.0 || ^11.0 || ^12.0"
     },
     "autoload": {
         "psr-4": {
